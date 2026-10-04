@@ -1,0 +1,191 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+/* ── Taste-Skill Color System ─────────────────────────────────
+ * High contrast, restrained palette. Zero AI-purple.
+ * Base: Deep Charcoal Obsidian (#0e1116)
+ * Surface: Slate Carbon (#161b22)
+ * Surface Elevated: (#21262d)
+ * Text Primary: Bone White (#f0f3f6)
+ * Text Muted: Slate Grey (#8b949e)
+ * Accent: Tungsten Amber (#e3a34a)
+ * Accent Subtle: rgba(227, 163, 74, 0.12)
+ * Border: rgba(240, 243, 246, 0.09)
+ * Border Strong: rgba(240, 243, 246, 0.18)
+ * ─────────────────────────────────────────────────────────── */
+:root {
+  --bg:               #0e1116;
+  --surface:          #161b22;
+  --surface-raised:   #21262d;
+  --text:             #f0f3f6;
+  --text-muted:       #8b949e;
+  --text-dim:         #656d76;
+
+  --accent:           #e3a34a;
+  --accent-muted:     rgba(227, 163, 74, 0.12);
+  --accent-border:    rgba(227, 163, 74, 0.35);
+
+  --border:           rgba(240, 243, 246, 0.09);
+  --border-strong:    rgba(240, 243, 246, 0.18);
+
+  --font-display:     'Space Grotesk', -apple-system, sans-serif;
+  --font-body:        'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:        'JetBrains Mono', monospace;
+
+  --radius:           3px;
+  --transition:       0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  --max-w:            1140px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+  background: none;
+}
+
+.container {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+/* ── Section Rhythm (taste-skill: distinct layouts, no identical repeated cards) ── */
+.section {
+  padding: 104px 0;
+  border-top: 1px solid var(--border);
+}
+
+.section-head {
+  margin-bottom: 48px;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.2vw, 2.75rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--text);
+}
+
+.section-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  max-width: 58ch;
+  margin-top: 12px;
+  line-height: 1.65;
+}
+
+/* ── Buttons (taste-skill: single-line desktop, WCAG AA contrast) ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  gap: 8px;
+  padding: 10px 20px;
+  font-size: 0.85rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  border-radius: var(--radius);
+  transition: var(--transition);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background: var(--text);
+  color: var(--bg);
+  border: 1px solid var(--text);
+}
+
+.btn-primary:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #0b0d11;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+}
+
+.btn-secondary:hover {
+  border-color: var(--text);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: #0b0d11;
+  border: 1px solid var(--accent);
+  font-weight: 600;
+}
+
+.btn-accent:hover {
+  background: #f0b561;
+  border-color: #f0b561;
+}
+
+/* ── Monospace tags ── */
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  padding: 3px 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ── Accessibility & Reduced Motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 72px 0;
+  }
+
+  .container {
+    padding: 0 20px;
+  }
+}
