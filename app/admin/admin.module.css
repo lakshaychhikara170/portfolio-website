@@ -331,3 +331,326 @@
     align-items: flex-start;
   }
 }
+
+/* ── Tabs ─────────────────────────────────────────────────────── */
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.tabNav {
+  display: flex;
+  gap: 12px;
+}
+
+.tabBtn {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: var(--transition);
+}
+
+.tabBtn:hover {
+  color: var(--text);
+}
+
+.tabBtnActive {
+  color: var(--c-amber);
+  border-bottom-color: var(--c-amber);
+}
+
+.badge {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.7rem;
+  color: var(--text);
+}
+
+/* ── CMS Layout ──────────────────────────────────────────────── */
+.cms {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  flex: 1;
+  overflow: hidden;
+  height: calc(100vh - 65px);
+}
+
+.cmsLoading {
+  padding: 48px;
+  text-align: center;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  flex: 1;
+}
+
+.cmsSidebar {
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cmsSidebarBtn {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-align: left;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.cmsSidebarBtn:hover {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.cmsSidebarBtnActive {
+  background: var(--bg);
+  color: var(--c-amber);
+  border-color: var(--border);
+}
+
+.saveBtn {
+  margin-top: auto;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: var(--c-amber);
+  color: var(--c-obsidian);
+  border: none;
+  border-radius: 2px;
+  padding: 12px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.saveBtn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.saveBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cmsMain {
+  padding: 32px 48px;
+  overflow-y: auto;
+  background: var(--bg);
+}
+
+/* ── CMS Form Elements ───────────────────────────────────────── */
+.cmsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.cmsField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cmsLabel {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.cmsInput,
+.cmsTextarea {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 12px;
+  color: var(--text);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+
+.cmsInput:focus,
+.cmsTextarea:focus {
+  border-color: var(--c-amber);
+}
+
+.cmsTextarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+.cmsToggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 12px 16px;
+  border-radius: 2px;
+}
+
+.toggle {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 4px 12px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.toggleOn {
+  background: rgba(76, 175, 125, 0.1);
+  border-color: rgba(76, 175, 125, 0.3);
+  color: #4caf7d;
+}
+
+/* ── CMS Complex Sections ────────────────────────────────────── */
+.sectionCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+
+.sectionCardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.sectionCardToggle {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sectionCardBody {
+  padding: 24px;
+}
+
+.deleteBtn {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #f87171;
+  background: rgba(248, 113, 113, 0.1);
+  border: 1px solid rgba(248, 113, 113, 0.2);
+  padding: 4px 8px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.deleteBtn:hover {
+  background: rgba(248, 113, 113, 0.2);
+}
+
+.addBtn {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px dashed var(--border-strong);
+  padding: 16px;
+  width: 100%;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.addBtn:hover {
+  border-color: var(--c-amber);
+  color: var(--c-amber);
+}
+
+/* ── Toasts ──────────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  padding: 12px 20px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid;
+}
+
+.toastOk {
+  background: #062a14;
+  border-color: rgba(76, 175, 125, 0.4);
+  color: #4caf7d;
+}
+
+.toastErr {
+  background: #2a0606;
+  border-color: rgba(248, 113, 113, 0.4);
+  color: #f87171;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .cms {
+    grid-template-columns: 1fr;
+    overflow-y: auto;
+  }
+  .cmsSidebar {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .cmsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
