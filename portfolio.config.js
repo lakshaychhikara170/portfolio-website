@@ -34,32 +34,43 @@ const portfolio = {
   // To add a new project, copy one block and paste it below.
   projects: [
     {
-      title: "AI Goal Scheduler",
+      title: "Journi",
       description:
-        "A smart daily planner that uses AI to help you prioritize goals, set reminders, and track progress over time.",
-      tags: ["React", "Node.js", "PostgreSQL", "OpenAI"],
-      liveUrl: "https://your-scheduler.vercel.app",
-      githubUrl: "https://github.com/you/scheduler",
-      image: "/projects/p1.png", // place screenshot in /public/projects/
+        "A personal journaling app with a clean login flow, mood tracking, and daily reflection prompts to help you build a consistent writing habit.",
+      tags: ["React", "Node.js", "Supabase", "Vercel"],
+      liveUrl: "https://journaling-d949wsyvh-lakshaychhikara170s-projects.vercel.app/login",
+      githubUrl: "https://github.com/lakshaychhikara170/journi",
+      image: "https://image.thum.io/get/width/900/crop/600/https://journaling-d949wsyvh-lakshaychhikara170s-projects.vercel.app/login",
       featured: true,
     },
     {
-      title: "Portfolio Website",
+      title: "Execute Pro",
       description:
-        "This portfolio - designed from scratch to feel personal and human, built with Next.js and deployed on Vercel.",
-      tags: ["Next.js", "CSS", "Vercel"],
-      liveUrl: "",
-      githubUrl: "https://github.com/you/portfolio",
-      image: "/projects/p2.png",
+        "A productivity-focused daily planner built to help you execute your goals with structured task lists, priority management, and a distraction-free interface.",
+      tags: ["React", "CSS", "Vercel"],
+      liveUrl: "https://daily-planner-rh7k.vercel.app/#/",
+      githubUrl: "https://github.com/lakshaychhikara170/daily-planner",
+      image: "https://image.thum.io/get/width/900/crop/600/https://daily-planner-rh7k.vercel.app/%23/",
       featured: true,
     },
     {
-      title: "Side Project 3",
-      description: "Describe what this project does and what problem it solves.",
-      tags: ["Tag1", "Tag2"],
-      liveUrl: "",
-      githubUrl: "",
-      image: "",
+      title: "BMS Protector",
+      description:
+        "Battery Management System dashboard for monitoring real-time cell data, fault detection, and protection logic for lithium-ion battery packs.",
+      tags: ["React", "Next.js", "Vercel"],
+      liveUrl: "https://bms-protector.vercel.app/",
+      githubUrl: "https://github.com/lakshaychhikara170/bms-protector",
+      image: "https://image.thum.io/get/width/900/crop/600/https://bms-protector.vercel.app/",
+      featured: false,
+    },
+    {
+      title: "AR Cursed Energy Engine",
+      description:
+        "Augmented reality hand tracking engine inspired by Jujutsu Kaisen. Detects hand gestures in real-time using computer vision and overlays cursed energy visual effects.",
+      tags: ["JavaScript", "MediaPipe", "WebGL", "AR"],
+      liveUrl: "https://ar-cursed-engine.vercel.app/",
+      githubUrl: "https://github.com/lakshaychhikara170/AR-Hand-Tracker-project-",
+      image: "https://image.thum.io/get/width/900/crop/600/https://ar-cursed-engine.vercel.app/",
       featured: false,
     },
   ],

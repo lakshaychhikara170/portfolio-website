@@ -17,16 +17,41 @@ export default function Projects({ projects }) {
         <div className={styles.stack}>
           {/* Featured Projects */}
           <div className={styles.featuredList}>
-            {featured.map((p, idx) => (
+            {featured.map((p) => (
               <article key={p.title} className={styles.featuredItem}>
-                <div className={styles.screen}>
-                  {p.image ? (
-                    <img src={p.image} alt={p.title} className={styles.img} />
-                  ) : null}
-                  <div className={styles.previewBackdrop}>
-                    <span className={styles.previewTitle}>{p.title}</span>
+                {/* Screenshot panel — entire panel is clickable */}
+                {p.liveUrl ? (
+                  <a
+                    href={p.liveUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={styles.screenLink}
+                    aria-label={`Open ${p.title} live site`}
+                  >
+                    <div className={styles.screen}>
+                      {p.image ? (
+                        <img src={p.image} alt={`${p.title} screenshot`} className={styles.img} />
+                      ) : (
+                        <div className={styles.previewBackdrop}>
+                          <span className={styles.previewTitle}>{p.title}</span>
+                        </div>
+                      )}
+                      <div className={styles.screenOverlay}>
+                        <span className={styles.overlayLabel}>Visit Site ↗</span>
+                      </div>
+                    </div>
+                  </a>
+                ) : (
+                  <div className={styles.screen}>
+                    {p.image ? (
+                      <img src={p.image} alt={`${p.title} screenshot`} className={styles.img} />
+                    ) : (
+                      <div className={styles.previewBackdrop}>
+                        <span className={styles.previewTitle}>{p.title}</span>
+                      </div>
+                    )}
                   </div>
-                </div>
+                )}
 
                 <div className={styles.featuredBody}>
                   <div className={styles.tags}>
@@ -70,6 +95,22 @@ export default function Projects({ projects }) {
             <div className={styles.secondaryGrid}>
               {secondary.map(p => (
                 <article key={p.title} className={styles.secondaryCard}>
+                  {/* Thumbnail for secondary cards */}
+                  {p.image && (
+                    <a
+                      href={p.liveUrl || p.githubUrl || '#'}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={styles.secondaryThumbLink}
+                    >
+                      <div className={styles.secondaryThumb}>
+                        <img src={p.image} alt={`${p.title} screenshot`} className={styles.thumbImg} />
+                        <div className={styles.thumbOverlay}>
+                          <span className={styles.overlayLabel}>Visit ↗</span>
+                        </div>
+                      </div>
+                    </a>
+                  )}
                   <div className={styles.tags}>
                     {p.tags.map(t => (
                       <span key={t} className="tag">{t}</span>
@@ -108,3 +149,4 @@ export default function Projects({ projects }) {
     </section>
   )
 }
+
