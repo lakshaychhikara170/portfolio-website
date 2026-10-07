@@ -8,7 +8,8 @@ export default function Hero({ data }) {
           {/* ── Left Column: Editorial & Value Proposition ── */}
           <div className={styles.content}>
             <span className={styles.availability}>
-              {data.availableForWork ? 'Available for select projects' : 'Currently booked'} &bull; {data.location || 'India'}
+              {data.availableForWork && <>Available for select projects &bull; </>}
+              {data.location || 'India'}
             </span>
 
             <h1 className={styles.title}>
