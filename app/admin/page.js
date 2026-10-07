@@ -71,6 +71,63 @@ function Toggle({ label, value, onChange }) {
   )
 }
 
+function FileInput({ label, value, onChange, pw, accept = 'image/*' }) {
+  const [uploading, setUploading] = useState(false)
+
+  const handleUpload = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setUploading(true)
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('password', pw)
+
+    try {
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      })
+      const data = await res.json()
+      if (res.ok && data.url) {
+        onChange(data.url)
+      } else {
+        alert(data.error || 'Upload failed')
+      }
+    } catch (err) {
+      alert('Upload failed: ' + err.message)
+    } finally {
+      setUploading(false)
+      e.target.value = '' // Reset input
+    }
+  }
+
+  return (
+    <div className={styles.cmsField}>
+      <label className={styles.cmsLabel}>{label}</label>
+      <div className={styles.fileInputRow}>
+        <input
+          type="text"
+          className={`${styles.cmsInput} ${styles.mono}`}
+          value={value || ''}
+          onChange={e => onChange(e.target.value)}
+          placeholder="URL..."
+        />
+        <label className={styles.uploadBtn}>
+          {uploading ? '...' : 'Upload'}
+          <input
+            type="file"
+            accept={accept}
+            onChange={handleUpload}
+            disabled={uploading}
+            style={{ display: 'none' }}
+          />
+        </label>
+      </div>
+    </div>
+  )
+}
+
 function SectionCard({ title, children, onDelete }) {
   const [open, setOpen] = useState(true)
   return (
@@ -90,15 +147,15 @@ function SectionCard({ title, children, onDelete }) {
 
 // ─── CMS Sections ────────────────────────────────────────────
 
-function GeneralSection({ data, onChange }) {
+function GeneralSection({ data, onChange, pw }) {
   const set = (key) => (val) => onChange({ ...data, [key]: val })
   return (
     <div className={styles.cmsGrid}>
       <TextInput label="Name" value={data.name} onChange={set('name')} />
       <TextInput label="Role / Title" value={data.role} onChange={set('role')} />
       <TextInput label="Location" value={data.location} onChange={set('location')} />
-      <TextInput label="Avatar URL" value={data.avatar} onChange={set('avatar')} mono />
-      <TextInput label="Resume URL" value={data.resumeUrl} onChange={set('resumeUrl')} mono />
+      <FileInput label="Avatar URL" value={data.avatar} onChange={set('avatar')} pw={pw} />
+      <FileInput label="Resume URL" value={data.resumeUrl} onChange={set('resumeUrl')} pw={pw} accept="application/pdf" />
       <Toggle label="Open to work (green badge)" value={data.availableForWork} onChange={set('availableForWork')} />
       <div className={styles.fullWidth}>
         <TextArea label="Tagline (shown in hero)" value={data.tagline} onChange={set('tagline')} rows={2} />
@@ -155,7 +212,7 @@ function SkillsSection({ data, onChange }) {
   )
 }
 
-function ProjectsSection({ data, onChange }) {
+function ProjectsSection({ data, onChange, pw }) {
   const set = (idx, key) => (val) => {
     const updated = data.map((p, i) => i === idx ? { ...p, [key]: val } : p)
     onChange(updated)
@@ -193,11 +250,11 @@ function ProjectsSection({ data, onChange }) {
             <TextInput label="Live URL" value={p.liveUrl} onChange={set(idx, 'liveUrl')} mono />
             <TextInput label="GitHub URL" value={p.githubUrl} onChange={set(idx, 'githubUrl')} mono />
             <div className={styles.fullWidth}>
-              <TextInput
+              <FileInput
                 label="Image URL (leave empty to auto-screenshot from live URL via thum.io)"
                 value={p.image}
                 onChange={set(idx, 'image')}
-                mono
+                pw={pw}
               />
             </div>
             <Toggle label="Featured (large card)" value={p.featured} onChange={set(idx, 'featured')} />
@@ -386,6 +443,7 @@ function CMSTab({ pw }) {
           <GeneralSection
             data={portfolio}
             onChange={(updated) => setPortfolio(updated)}
+            pw={pw}
           />
         )}
         {activeSection === 'skills' && (
@@ -398,6 +456,7 @@ function CMSTab({ pw }) {
           <ProjectsSection
             data={portfolio.projects || []}
             onChange={(updated) => setPortfolio({ ...portfolio, projects: updated })}
+            pw={pw}
           />
         )}
         {activeSection === 'experience' && (

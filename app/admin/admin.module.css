@@ -510,6 +510,36 @@
   font-size: 0.8rem;
 }
 
+/* ── File Input ──────────────────────────────────────────────── */
+.fileInputRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.uploadBtn {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  background: var(--c-obsidian);
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  padding: 0 16px;
+  height: 44px;
+  border-radius: 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.uploadBtn:hover {
+  background: var(--surface);
+  border-color: var(--c-amber);
+  color: var(--c-amber);
+}
+
 .cmsToggleRow {
   display: flex;
   align-items: center;
