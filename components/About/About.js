@@ -30,7 +30,7 @@ export default function About({ data }) {
             <div className={styles.specBox}>
               <div className={styles.specItem}>
                 <span className={styles.specLabel}>Primary Disciplines</span>
-                <span className={styles.specValue}>Video Editing, Full-Stack Web Development</span>
+                <span className={styles.specValue}>{data.primaryDisciplines || 'Video Editing, Full-Stack Web Development'}</span>
               </div>
               <div className={styles.specItem}>
                 <span className={styles.specLabel}>Location</span>

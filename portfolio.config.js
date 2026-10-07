@@ -17,6 +17,7 @@ const portfolio = {
   role: "video editor, full stack developer",
   tagline: "I craft fast, beautiful, and purposeful digital experiences.",
   bio: "I'm a polymath who loves solving real problems with clean code and thoughtful design. When I'm not building things, I'm probably reading about systems design or tinkering with side projects.",
+  primaryDisciplines: "Video Editing, Full-Stack Web Development",
   avatar: "/avatar.jpg", // Place your photo in /public/avatar.jpg
   resumeUrl: "/resume.pdf", // Place your resume in /public/resume.pdf
   location: "India",

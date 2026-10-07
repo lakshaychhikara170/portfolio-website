@@ -153,6 +153,7 @@ function GeneralSection({ data, onChange, pw }) {
     <div className={styles.cmsGrid}>
       <TextInput label="Name" value={data.name} onChange={set('name')} />
       <TextInput label="Role / Title" value={data.role} onChange={set('role')} />
+      <TextInput label="Primary Disciplines (About panel)" value={data.primaryDisciplines} onChange={set('primaryDisciplines')} />
       <TextInput label="Location" value={data.location} onChange={set('location')} />
       <FileInput label="Avatar URL" value={data.avatar} onChange={set('avatar')} pw={pw} />
       <FileInput label="Resume URL" value={data.resumeUrl} onChange={set('resumeUrl')} pw={pw} accept="application/pdf" />

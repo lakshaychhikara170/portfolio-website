@@ -65,9 +65,83 @@
   color: var(--text);
 }
 
+.adminTrigger {
+  border: 0;
+  padding: 4px;
+  background: transparent;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 0.65rem;
+  opacity: 0.12;
+  cursor: pointer;
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+.adminTrigger:hover,
+.adminTrigger:focus-visible {
+  opacity: 1;
+  color: var(--text);
+}
+
+.adminOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.78);
+}
+
+.adminFrameWrap {
+  position: relative;
+  width: min(1440px, 100%);
+  min-height: 0;
+  border: 1px solid var(--border-strong);
+  background: var(--bg);
+}
+
+.adminFrame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border: 0;
+}
+
+.adminClose {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  z-index: 2;
+  border: 1px solid var(--border-strong);
+  border-radius: 2px;
+  padding: 7px 10px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.adminClose:hover,
+.adminClose:focus-visible {
+  border-color: var(--c-amber);
+}
+
 @media (max-width: 640px) {
   .inner {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .adminOverlay {
+    padding: 0;
+  }
+
+  .adminFrameWrap {
+    width: 100%;
+    border: 0;
   }
 }
