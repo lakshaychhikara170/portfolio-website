@@ -1,13 +1,41 @@
 import { NextResponse } from 'next/server'
+import fs from 'fs'
+import path from 'path'
 import defaultPortfolio from '../../../portfolio.config.js'
 
 const SUPABASE_URL   = process.env.NEXT_PUBLIC_SUPABASE_URL  || ''
 const SUPABASE_KEY   = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD            || 'admin123'
+const DATA_FILE      = path.join(process.cwd(), 'data', 'portfolio.json')
 
 const HEADERS = {
   apikey: SUPABASE_KEY,
   Authorization: `Bearer ${SUPABASE_KEY}`,
+}
+
+function readLocalPortfolio() {
+  try {
+    if (!fs.existsSync(DATA_FILE)) {
+      const fallback = defaultPortfolio
+      writeLocalPortfolio(fallback)
+      return fallback
+    }
+    return JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'))
+  } catch {
+    return defaultPortfolio
+  }
+}
+
+function writeLocalPortfolio(data) {
+  try {
+    const dir = path.dirname(DATA_FILE)
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
+    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2))
+    return true
+  } catch (err) {
+    console.error('Local portfolio save failed:', err)
+    return false
+  }
 }
 
 async function fetchFromSupabase() {
@@ -26,7 +54,7 @@ async function fetchFromSupabase() {
 
 // GET /api/portfolio — return portfolio data
 export async function GET() {
-  const data = (await fetchFromSupabase()) ?? defaultPortfolio
+  const data = (await fetchFromSupabase()) ?? readLocalPortfolio()
   return NextResponse.json(data)
 }
 
@@ -43,31 +71,32 @@ export async function POST(req) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  if (!SUPABASE_URL || !SUPABASE_KEY) {
-    return NextResponse.json(
-      { error: 'Supabase not configured. Add NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY env vars.' },
-      { status: 503 }
-    )
+  if (SUPABASE_URL && SUPABASE_KEY) {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/portfolio_data`, {
+      method: 'POST',
+      headers: {
+        ...HEADERS,
+        'Content-Type': 'application/json',
+        Prefer: 'resolution=merge-duplicates',
+      },
+      body: JSON.stringify({
+        id: 'main',
+        data,
+        updated_at: new Date().toISOString(),
+      }),
+    })
+
+    if (!res.ok) {
+      const err = await res.text()
+      return NextResponse.json({ error: err }, { status: 500 })
+    }
+
+    return NextResponse.json({ ok: true, source: 'supabase' })
   }
 
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/portfolio_data`, {
-    method: 'POST',
-    headers: {
-      ...HEADERS,
-      'Content-Type': 'application/json',
-      Prefer: 'resolution=merge-duplicates',
-    },
-    body: JSON.stringify({
-      id: 'main',
-      data,
-      updated_at: new Date().toISOString(),
-    }),
-  })
-
-  if (!res.ok) {
-    const err = await res.text()
-    return NextResponse.json({ error: err }, { status: 500 })
+  if (!writeLocalPortfolio(data)) {
+    return NextResponse.json({ error: 'Unable to save portfolio data locally.' }, { status: 500 })
   }
 
-  return NextResponse.json({ ok: true })
+  return NextResponse.json({ ok: true, source: 'local' })
 }

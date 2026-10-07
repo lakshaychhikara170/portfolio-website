@@ -1,3 +1,5 @@
+import fs from 'fs'
+import path from 'path'
 import defaultPortfolio from '../portfolio.config.js'
 import Navbar from '../components/Navbar/Navbar'
 import Hero from '../components/Hero/Hero'
@@ -8,7 +10,18 @@ import Experience from '../components/Experience/Experience'
 import Contact from '../components/Contact/Contact'
 import Footer from '../components/Footer/Footer'
 
-// Fetch live portfolio data from Supabase; fall back to portfolio.config.js
+const PORTFOLIO_DATA_FILE = path.join(process.cwd(), 'data', 'portfolio.json')
+
+function readLocalPortfolio() {
+  try {
+    if (!fs.existsSync(PORTFOLIO_DATA_FILE)) return defaultPortfolio
+    return JSON.parse(fs.readFileSync(PORTFOLIO_DATA_FILE, 'utf-8'))
+  } catch {
+    return defaultPortfolio
+  }
+}
+
+// Fetch live portfolio data from Supabase; fall back to local JSON then portfolio.config.js
 async function getPortfolio() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL  || ''
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
@@ -25,7 +38,7 @@ async function getPortfolio() {
       if (rows?.[0]?.data) return rows[0].data
     } catch {}
   }
-  return defaultPortfolio
+  return readLocalPortfolio()
 }
 
 export async function generateMetadata() {
