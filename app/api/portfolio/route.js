@@ -94,8 +94,14 @@ export async function POST(req) {
     return NextResponse.json({ ok: true, source: 'supabase' })
   }
 
+  if (process.env.VERCEL || process.env.NODE_ENV === 'production') {
+    return NextResponse.json({
+      error: 'Deployment requires Supabase env vars. Add NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in Vercel, then redeploy.'
+    }, { status: 503 })
+  }
+
   if (!writeLocalPortfolio(data)) {
-    return NextResponse.json({ error: 'Unable to save portfolio data locally.' }, { status: 500 })
+    return NextResponse.json({ error: 'Unable to save portfolio data locally on this machine.' }, { status: 500 })
   }
 
   return NextResponse.json({ ok: true, source: 'local' })
