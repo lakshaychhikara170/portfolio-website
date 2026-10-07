@@ -40,22 +40,43 @@ function writeLocalPortfolio(data) {
 
 async function fetchFromSupabase() {
   if (!SUPABASE_URL || !SUPABASE_KEY) return null
-  try {
-    const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/portfolio_data?id=eq.main&select=data`,
-      { headers: HEADERS, cache: 'no-store' }
-    )
-    const rows = await res.json()
-    return rows?.[0]?.data ?? null
-  } catch {
-    return null
-  }
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/portfolio_data?id=eq.main&select=data`,
+    { headers: HEADERS, cache: 'no-store' }
+  )
+  if (!res.ok) throw new Error(`Supabase portfolio read failed (${res.status})`)
+
+  const rows = await res.json()
+  if (!rows?.[0]?.data) throw new Error('The main portfolio row was not found in Supabase')
+  return rows[0].data
 }
 
 // GET /api/portfolio — return portfolio data
 export async function GET() {
-  const data = (await fetchFromSupabase()) ?? readLocalPortfolio()
-  return NextResponse.json(data)
+  if (SUPABASE_URL && SUPABASE_KEY) {
+    try {
+      const data = await fetchFromSupabase()
+      return NextResponse.json(data, {
+        headers: { 'Cache-Control': 'no-store, max-age=0' },
+      })
+    } catch (err) {
+      return NextResponse.json(
+        { error: err.message || 'Unable to read portfolio data from Supabase.' },
+        { status: 502, headers: { 'Cache-Control': 'no-store' } }
+      )
+    }
+  }
+
+  if (process.env.VERCEL || process.env.NODE_ENV === 'production') {
+    return NextResponse.json(
+      { error: 'Supabase environment variables are required to read the live portfolio.' },
+      { status: 503, headers: { 'Cache-Control': 'no-store' } }
+    )
+  }
+
+  return NextResponse.json(readLocalPortfolio(), {
+    headers: { 'Cache-Control': 'no-store, max-age=0' },
+  })
 }
 
 // POST /api/portfolio — save portfolio data (admin only)

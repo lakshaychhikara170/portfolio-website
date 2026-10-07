@@ -16,7 +16,7 @@ export default function Hero({ data }) {
             </h1>
 
             <p className={styles.role}>
-              Video Editor and Full-Stack Developer
+              {data.role || 'Video Editor and Full-Stack Developer'}
             </p>
 
             <p className={styles.tagline}>

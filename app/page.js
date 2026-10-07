@@ -26,18 +26,24 @@ async function getPortfolio() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL  || ''
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
   if (url && key) {
-    try {
-      const res = await fetch(
-        `${url}/rest/v1/portfolio_data?id=eq.main&select=data`,
-        {
-          headers: { apikey: key, Authorization: `Bearer ${key}` },
-          cache: 'no-store',
-        }
-      )
-      const rows = await res.json()
-      if (rows?.[0]?.data) return rows[0].data
-    } catch {}
+    const res = await fetch(
+      `${url}/rest/v1/portfolio_data?id=eq.main&select=data`,
+      {
+        headers: { apikey: key, Authorization: `Bearer ${key}` },
+        cache: 'no-store',
+      }
+    )
+    if (!res.ok) throw new Error(`Supabase portfolio read failed (${res.status})`)
+
+    const rows = await res.json()
+    if (rows?.[0]?.data) return rows[0].data
+    throw new Error('The main portfolio row was not found in Supabase')
   }
+
+  if (process.env.VERCEL || process.env.NODE_ENV === 'production') {
+    throw new Error('Supabase environment variables are required to read the live portfolio')
+  }
+
   return readLocalPortfolio()
 }
 
