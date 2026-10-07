@@ -60,7 +60,7 @@ export default async function Home() {
   const portfolio = await getPortfolio()
   return (
     <>
-      <Navbar name={portfolio.name} />
+      <Navbar name={portfolio.name} role={portfolio.role} />
       <main>
         <Hero data={portfolio} />
         <About data={portfolio} />

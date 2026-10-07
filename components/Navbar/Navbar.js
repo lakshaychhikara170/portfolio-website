@@ -10,7 +10,7 @@ const navLinks = [
   { label: 'Contact',    href: '#contact' },
 ]
 
-export default function Navbar({ name }) {
+export default function Navbar({ name, role }) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -18,7 +18,7 @@ export default function Navbar({ name }) {
       <div className={`container ${styles.inner}`}>
         <a href="#hero" className={styles.logo}>
           <span className={styles.name}>{name || 'Lakshay Chhikara'}</span>
-          <span className={styles.role}>Video Editor &bull; Full-Stack Dev</span>
+          <span className={styles.role}>{role || 'Engineer • Dev'}</span>
         </a>
 
         <nav className={`${styles.nav} ${open ? styles.navOpen : ''}`}>
